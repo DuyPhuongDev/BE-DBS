@@ -20,6 +20,7 @@ public class StudentResponse {
     private String password;
     private String email;
     private String fullName;
+    private String phoneNumber;
     private String gender;
     private Date bdate;
     private String addr;
@@ -32,6 +33,7 @@ public class StudentResponse {
                 .password(studentDTO.getPassword())
                 .email(studentDTO.getEmail())
                 .fullName(studentDTO.getFullName())
+                .phoneNumber(studentDTO.getPhoneNumber())
                 .gender(studentDTO.getGender())
                 .bdate(studentDTO.getBdate())
                 .addr(studentDTO.getAddr())

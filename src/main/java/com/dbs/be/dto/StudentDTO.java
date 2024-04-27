@@ -20,6 +20,7 @@ public class StudentDTO {
     private String password;
     private String email;
     private String fullName;
+    private String phoneNumber;
     private String gender;
     private Date bdate;
     private String addr;
@@ -32,6 +33,7 @@ public class StudentDTO {
                 .password(student.getPassword())
                 .email(student.getEmail())
                 .fullName(student.getFullName())
+                .phoneNumber(student.getPhoneNumber())
                 .gender(student.getGender())
                 .bdate(student.getBdate())
                 .addr(student.getAddr())
