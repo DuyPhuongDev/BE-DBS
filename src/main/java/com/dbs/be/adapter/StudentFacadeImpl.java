@@ -28,17 +28,17 @@ public class StudentFacadeImpl implements StudentFacade {
 
     @Override
     public void saveStudent(UpsertStudentRequest request) {
-        Student student = (Student) Student.builder()
-                .id(request.getStudentId())
-                .username(request.getUserName())
-                .password(request.getPassword())
-                .email(request.getEmail())
-                .fullName(request.getFullName())
-                .phoneNumber(request.getPhoneNumber())
-                .gender(request.getGender())
-                .bdate(request.getBdate())
-                .addr(request.getAddr())
-                .build();
+        Student student = new Student(
+                request.getStudentId(),
+                request.getUserName(),
+                request.getPassword(),
+                request.getEmail(),
+                request.getPhoneNumber(),
+                request.getFullName(),
+                request.getGender(),
+                request.getBdate(),
+                request.getAddr()
+        );
         studentRepository.save(student);
     }
 
