@@ -38,4 +38,12 @@ public class LecturerController {
         lecturerFacade.deleteLecturer(lecturerId);
         return BaseResponse.empty();
     }
+
+    @PutMapping("/{lecturerId}")
+    @Operation(tags = "Lecturer APIs")
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponse<Void> updateLecturer(@PathVariable String lecturerId, @RequestBody UpsertLecturerRequest request){
+        lecturerFacade.updateLecturer(lecturerId, request);
+        return BaseResponse.empty();
+    }
 }

@@ -8,5 +8,7 @@ import java.util.List;
 public interface LecturerFacade {
     List<LecturerResponse> getAllLecturerSortByName();
     void saveLecturer(UpsertLecturerRequest request);
+
+    void updateLecturer(String lecturerId, UpsertLecturerRequest request);
     void deleteLecturer(String lecturerId);
 }

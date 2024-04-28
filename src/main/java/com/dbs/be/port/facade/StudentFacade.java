@@ -10,5 +10,7 @@ public interface StudentFacade {
 
     void saveStudent(UpsertStudentRequest request);
 
+    void updateStudent(String studentId, UpsertStudentRequest request);
+
     void deleteStudent(String studentId);
 }

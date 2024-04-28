@@ -1,6 +1,5 @@
 package com.dbs.be.rest.controller;
 
-import com.dbs.be.domain.user.User;
 import com.dbs.be.port.facade.StudentFacade;
 import com.dbs.be.rest.request.UpsertStudentRequest;
 import com.dbs.be.rest.response.BaseResponse;
@@ -9,7 +8,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.EntityResponse;
 
 import java.util.List;
 
@@ -41,4 +39,13 @@ public class StudentController {
         studentFacade.deleteStudent(studentId);
         return BaseResponse.empty();
     }
+
+    @PutMapping("/{studentId}")
+    @Operation(tags = "Student APIs")
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponse<Void> updateStudent(@PathVariable String studentId, @RequestBody UpsertStudentRequest request){
+        studentFacade.updateStudent(studentId, request);
+        return BaseResponse.empty();
+    }
+
 }
