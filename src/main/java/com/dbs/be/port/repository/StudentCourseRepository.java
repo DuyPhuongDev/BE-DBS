@@ -1,0 +1,13 @@
+package com.dbs.be.port.repository;
+
+import com.dbs.be.domain.course.Course;
+import com.dbs.be.domain.studentCourse.StudentCourse;
+import com.dbs.be.domain.studentCourse.StudentCourseId;
+import com.dbs.be.domain.user.Student;
+import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface StudentCourseRepository extends JpaRepository<StudentCourse, StudentCourseId> {
+    void deleteStudentCourseByCourseAndStudent(Course course, Student student);
+
+}

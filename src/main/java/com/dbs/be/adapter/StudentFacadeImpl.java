@@ -1,11 +1,17 @@
 package com.dbs.be.adapter;
 
+import com.dbs.be.domain.course.Course;
 import com.dbs.be.domain.user.Student;
+import com.dbs.be.dto.CourseDTO;
 import com.dbs.be.dto.StudentDTO;
 import com.dbs.be.port.facade.StudentFacade;
+import com.dbs.be.port.repository.CourseRepository;
+import com.dbs.be.port.repository.StudentCourseRepository;
 import com.dbs.be.port.repository.StudentRepository;
 import com.dbs.be.rest.request.UpsertStudentRequest;
+import com.dbs.be.rest.response.CourseResponse;
 import com.dbs.be.rest.response.StudentResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +24,8 @@ import java.util.stream.Collectors;
 @Service
 public class StudentFacadeImpl implements StudentFacade {
     private final StudentRepository studentRepository;
+    private final CourseRepository courseRepository;
+    private final StudentCourseRepository studentCourseRepository;
     @Override
     public List<StudentResponse> getAllStudents() {
 
@@ -65,5 +73,21 @@ public class StudentFacadeImpl implements StudentFacade {
         if(optionalStudent.isPresent()){
             studentRepository.deleteById(studentId);
         }else throw new RuntimeException("Student cannot found!\n");
+    }
+
+    @Override
+    public List<CourseResponse> findCoursesByStudentId(String studentId) {
+        List<Course> courses = courseRepository.findCoursesByStudentId(studentId);
+        return courses.stream().map(CourseDTO::fromDomain).map(CourseResponse::toResponse).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void deleteCourse(String courseId, String studentId) {
+        Optional<Course> optionalCourse = courseRepository.findByCourseId(courseId);
+        if(optionalCourse.isEmpty()) throw new RuntimeException("Course cannot found");
+        Optional<Student> optionalStudent = studentRepository.findById(studentId);
+        if(optionalStudent.isEmpty()) throw new RuntimeException("Student cannot found!");
+        studentCourseRepository.deleteStudentCourseByCourseAndStudent(optionalCourse.get(),optionalStudent.get());
     }
 }

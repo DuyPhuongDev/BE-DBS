@@ -25,6 +25,7 @@ public class StudentDTO {
     private Date bdate;
     private String addr;
     private List<OrderDetailDTO> orderDetails;
+    private List<StudentCourseDTO> studentCourses;
 
     public static StudentDTO fromDomain(Student student){
         return StudentDTO.builder()
@@ -38,6 +39,7 @@ public class StudentDTO {
                 .bdate(student.getBdate())
                 .addr(student.getAddr())
                 .orderDetails(student.getOrderDetails().stream().map(OrderDetailDTO::fromDomain).collect(Collectors.toList()))
+                .studentCourses(student.getStudentCourses().stream().map(StudentCourseDTO::fromDomain).collect(Collectors.toList()))
                 .build();
     }
 }
