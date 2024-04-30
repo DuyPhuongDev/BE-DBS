@@ -3,6 +3,7 @@ package com.dbs.be.rest.controller;
 import com.dbs.be.port.facade.LecturerFacade;
 import com.dbs.be.rest.request.UpsertLecturerRequest;
 import com.dbs.be.rest.response.BaseResponse;
+import com.dbs.be.rest.response.CourseInfoResponse;
 import com.dbs.be.rest.response.LecturerResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +46,12 @@ public class LecturerController {
     public BaseResponse<Void> updateLecturer(@PathVariable String lecturerId, @RequestBody UpsertLecturerRequest request){
         lecturerFacade.updateLecturer(lecturerId, request);
         return BaseResponse.empty();
+    }
+
+    @GetMapping("/{lecturerId}/courses")
+    @Operation(tags = "Lecturer APIs")
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponse<List<CourseInfoResponse>> getCourses(@PathVariable String lecturerId){
+        return BaseResponse.of(lecturerFacade.getCourse(lecturerId));
     }
 }

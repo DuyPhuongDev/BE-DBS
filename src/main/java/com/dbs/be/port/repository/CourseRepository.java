@@ -44,4 +44,7 @@ public interface CourseRepository extends JpaRepository<Course, String> {
             @Param("progressTo") Double progressTo,
             @Param("sortBy") String sortBy
     );
+
+    
+
 }

@@ -1,10 +1,14 @@
 package com.dbs.be.adapter;
 
 import com.dbs.be.domain.user.Lecturer;
+import com.dbs.be.domain.view.CourseInfo;
+import com.dbs.be.dto.CourseInfoDTO;
 import com.dbs.be.dto.LecturerDTO;
 import com.dbs.be.port.facade.LecturerFacade;
+import com.dbs.be.port.repository.CourseInfoRepository;
 import com.dbs.be.port.repository.LecturerRepository;
 import com.dbs.be.rest.request.UpsertLecturerRequest;
+import com.dbs.be.rest.response.CourseInfoResponse;
 import com.dbs.be.rest.response.LecturerResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class LecturerFacadeImpl implements LecturerFacade {
     private final LecturerRepository lecturerRepository;
+    private final CourseInfoRepository courseInfoRepository;
     @Override
     public List<LecturerResponse> getAllLecturerSortByName() {
         List<Lecturer> lecturers = lecturerRepository.findAllByOrderByFullNameAsc();
@@ -68,5 +73,12 @@ public class LecturerFacadeImpl implements LecturerFacade {
         if (optionalLecturer.isPresent()){
             lecturerRepository.deleteById(lecturerId);
         }else throw new RuntimeException("lecturer cannot found!\n");
+    }
+
+    @Override
+    public List<CourseInfoResponse> getCourse(String lecturerId) {
+        List<CourseInfo> courseInfos = courseInfoRepository.getCourseByLecturer(lecturerId);
+        if(courseInfos.isEmpty()) throw new RuntimeException("cannot found");
+        return courseInfos.stream().map(CourseInfoDTO::fromDomain).map(CourseInfoResponse::toResponse).collect(Collectors.toList());
     }
 }
