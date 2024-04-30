@@ -18,4 +18,8 @@ public interface StudentFacade {
     List<CourseResponse> findCoursesByStudentId(String studentId);
 
     void deleteCourse(String courseId, String studentId);
+
+    CourseResponse findCourse(String studentId, String courseId);
+
+    List<StudentResponse> searchAllStudents(String name, String courseId);
 }

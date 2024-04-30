@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "order_detail")
@@ -31,5 +32,8 @@ public class OrderDetail {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_student")
     private Student student;
+
+    @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL)
+    private List<Order> orders;
 
 }

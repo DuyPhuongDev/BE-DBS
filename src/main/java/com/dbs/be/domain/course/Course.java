@@ -1,5 +1,7 @@
 package com.dbs.be.domain.course;
 
+import com.dbs.be.domain.order.Order;
+import com.dbs.be.domain.section.Section;
 import com.dbs.be.domain.studentCourse.StudentCourse;
 import com.dbs.be.domain.user.Lecturer;
 import jakarta.persistence.*;
@@ -41,4 +43,10 @@ public class Course {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<StudentCourse> studentCourses;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Section> sections;
 }

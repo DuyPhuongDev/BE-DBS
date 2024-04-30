@@ -6,7 +6,6 @@ import com.dbs.be.rest.response.BaseResponse;
 import com.dbs.be.rest.response.CourseResponse;
 import com.dbs.be.rest.response.StudentResponse;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,12 @@ public class StudentController {
     @GetMapping("/")
     @Operation(tags = "Student APIs")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponse<List<StudentResponse>> getAllStudents(){
+    public BaseResponse<List<StudentResponse>> getAllStudents(@RequestParam(defaultValue = "0") Boolean searchFlag,
+                                                              @RequestParam(required = false) String name,
+                                                              @RequestParam(required = false) String courseId){
+        if(searchFlag==Boolean.TRUE){
+            return BaseResponse.of(studentFacade.searchAllStudents(name,courseId));
+        }
         return BaseResponse.of(studentFacade.getAllStudents());
     }
 
@@ -63,5 +67,12 @@ public class StudentController {
     public BaseResponse<Void> deleteStudentCourse(@PathVariable String studentId, @PathVariable String courseId){
         studentFacade.deleteCourse(courseId, studentId);
         return BaseResponse.empty();
+    }
+
+    @GetMapping("/{studentId}/courses/{courseId}")
+    @Operation(tags = "Student APIs")
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponse<CourseResponse> findCourse(@PathVariable String studentId,@PathVariable String courseId){
+        return BaseResponse.of(studentFacade.findCourse(studentId,courseId));
     }
 }

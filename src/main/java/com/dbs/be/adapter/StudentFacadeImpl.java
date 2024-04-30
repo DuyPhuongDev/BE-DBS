@@ -76,8 +76,11 @@ public class StudentFacadeImpl implements StudentFacade {
     }
 
     @Override
+    @Transactional
     public List<CourseResponse> findCoursesByStudentId(String studentId) {
-        List<Course> courses = courseRepository.findCoursesByStudentId(studentId);
+        //List<Course> courses = courseRepository.findCoursesByStudentId(studentId);
+        List<Course> courses = courseRepository.findCourseStudent(studentId);
+        if (courses.isEmpty()) throw new RuntimeException("Course cannot found!");
         return courses.stream().map(CourseDTO::fromDomain).map(CourseResponse::toResponse).collect(Collectors.toList());
     }
 
@@ -90,4 +93,19 @@ public class StudentFacadeImpl implements StudentFacade {
         if(optionalStudent.isEmpty()) throw new RuntimeException("Student cannot found!");
         studentCourseRepository.deleteStudentCourseByCourseAndStudent(optionalCourse.get(),optionalStudent.get());
     }
+
+    @Override
+    public CourseResponse findCourse(String studentId, String courseId) {
+        Course course = courseRepository.findCourseByCourseIdAndStudentId(studentId, courseId);
+        if(course==null) throw new RuntimeException("Course cannot found");
+        return CourseResponse.toResponse(CourseDTO.fromDomain(course));
+    }
+
+    @Override
+    public List<StudentResponse> searchAllStudents(String name, String courseId) {
+        List<Student> students = studentRepository.findStudentsByNameOrCourseId(name, courseId);
+        if (students.isEmpty()) throw new RuntimeException("cannot found");
+        return students.stream().map(StudentDTO::fromDomain).map(StudentResponse::toResponse).collect(Collectors.toList());
+    }
+
 }

@@ -121,4 +121,13 @@ public class CourseFacadeImpl implements CourseFacade {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<CourseResponse> searchCourseByCriteria(String lecturerId, String requiredLevel, Double priceS, Double priceE, Double progressS, Double progressE, String sortBy) {
+        List<Course> courses = courseRepository.findCoursesByCriteriaAndSort(lecturerId,requiredLevel,priceS,priceE,progressS,progressE,sortBy);
+        if(courses.isEmpty()) throw new RuntimeException("cannot found");
+        return courses.stream().map(CourseDTO::fromDomain)
+                .map(CourseResponse::toResponse)
+                .collect(Collectors.toList());
+    }
+
 }
