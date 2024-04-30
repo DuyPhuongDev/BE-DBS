@@ -19,7 +19,8 @@ public interface StudentFacade {
 
     void deleteCourse(String courseId, String studentId);
 
-    CourseResponse findCourse(String studentId, String courseId);
 
     List<StudentResponse> searchAllStudents(String name, String courseId);
+
+    List<CourseResponse> searchCourseByCriteria(String studentId, String lecturerId, String requiredLevel, Double priceS, Double priceE, Double progressS, Double progressE, String sortBy);
 }

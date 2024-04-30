@@ -57,7 +57,18 @@ public class StudentController {
     @GetMapping("/{studentId}/courses")
     @Operation(tags = "Student APIs")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponse<List<CourseResponse>> findAllCourses(@PathVariable String studentId){
+    public BaseResponse<List<CourseResponse>> findAllCourses(@PathVariable String studentId,
+                                                             @RequestParam(defaultValue = "0") Boolean searchFlag,
+                                                             @RequestParam(required = false) String lecturerId,
+                                                             @RequestParam(required = false) String requiredLevel,
+                                                             @RequestParam(required = false) Double priceS,
+                                                             @RequestParam(required = false) Double priceE,
+                                                             @RequestParam(required = false) Double progressS,
+                                                             @RequestParam(required = false) Double progressE,
+                                                             @RequestParam(defaultValue = "ASC") String sortBy){
+        if (searchFlag==Boolean.TRUE){
+            return BaseResponse.of(studentFacade.searchCourseByCriteria(studentId,lecturerId,requiredLevel,priceS,priceE,progressS,progressE,sortBy));
+        }
         return BaseResponse.of(studentFacade.findCoursesByStudentId(studentId));
     }
 
@@ -67,12 +78,5 @@ public class StudentController {
     public BaseResponse<Void> deleteStudentCourse(@PathVariable String studentId, @PathVariable String courseId){
         studentFacade.deleteCourse(courseId, studentId);
         return BaseResponse.empty();
-    }
-
-    @GetMapping("/{studentId}/courses/{courseId}")
-    @Operation(tags = "Student APIs")
-    @ResponseStatus(HttpStatus.OK)
-    public BaseResponse<CourseResponse> findCourse(@PathVariable String studentId,@PathVariable String courseId){
-        return BaseResponse.of(studentFacade.findCourse(studentId,courseId));
     }
 }

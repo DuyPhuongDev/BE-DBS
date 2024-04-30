@@ -95,17 +95,19 @@ public class StudentFacadeImpl implements StudentFacade {
     }
 
     @Override
-    public CourseResponse findCourse(String studentId, String courseId) {
-        Course course = courseRepository.findCourseByCourseIdAndStudentId(studentId, courseId);
-        if(course==null) throw new RuntimeException("Course cannot found");
-        return CourseResponse.toResponse(CourseDTO.fromDomain(course));
-    }
-
-    @Override
     public List<StudentResponse> searchAllStudents(String name, String courseId) {
         List<Student> students = studentRepository.findStudentsByNameOrCourseId(name, courseId);
         if (students.isEmpty()) throw new RuntimeException("cannot found");
         return students.stream().map(StudentDTO::fromDomain).map(StudentResponse::toResponse).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CourseResponse> searchCourseByCriteria(String studentId, String lecturerId, String requiredLevel, Double priceS, Double priceE, Double progressS, Double progressE, String sortBy) {
+        List<Course> courses = courseRepository.findCoursesByCriteriaAndSort(studentId, lecturerId,requiredLevel,priceS,priceE,progressS,progressE,sortBy);
+        if(courses.isEmpty()) throw new RuntimeException("cannot found");
+        return courses.stream().map(CourseDTO::fromDomain)
+                .map(CourseResponse::toResponse)
+                .collect(Collectors.toList());
     }
 
 }

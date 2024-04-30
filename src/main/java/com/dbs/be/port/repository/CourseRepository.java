@@ -25,6 +25,7 @@ public interface CourseRepository extends JpaRepository<Course, String> {
     @Query("SELECT c FROM Course c " +
             "LEFT JOIN c.studentCourses sc " +
             "WHERE (:lecturerId IS NULL OR c.lecturer.id = :lecturerId) " +
+            "AND (sc.student.id = :studentId)" +
             "AND (:requiredLevel IS NULL OR c.requiredLevel = :requiredLevel) " +
             "AND (:priceFrom IS NULL OR c.price >= :priceFrom) " +
             "AND (:priceTo IS NULL OR c.price <= :priceTo) " +
@@ -34,6 +35,7 @@ public interface CourseRepository extends JpaRepository<Course, String> {
             "CASE WHEN :sortBy = 'ASC' THEN c.price END ASC, " +
             "CASE WHEN :sortBy = 'DESC' THEN c.price END DESC")
     List<Course> findCoursesByCriteriaAndSort(
+            @Param("studentId") String studentId,
             @Param("lecturerId") String lecturerId,
             @Param("requiredLevel") String requiredLevel,
             @Param("priceFrom") Double priceFrom,
