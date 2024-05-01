@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @EqualsAndHashCode
+@Embeddable
 public class OrderID implements Serializable {
     @ManyToOne
     @JoinColumn(name = "course_id")

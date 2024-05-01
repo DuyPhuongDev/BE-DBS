@@ -33,7 +33,7 @@ public class OrderDetail {
     @JoinColumn(name = "ID_student")
     private Student student;
 
-    @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id.orderDetail", cascade = CascadeType.ALL)
     private List<Order> orders;
 
 }

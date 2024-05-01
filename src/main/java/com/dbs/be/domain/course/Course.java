@@ -44,8 +44,9 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<StudentCourse> studentCourses;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id.course", cascade = CascadeType.ALL)
     private List<Order> orders;
+
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Section> sections;
