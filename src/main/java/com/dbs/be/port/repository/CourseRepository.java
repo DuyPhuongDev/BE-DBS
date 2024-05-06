@@ -22,7 +22,7 @@ public interface CourseRepository extends JpaRepository<Course, String> {
     Course findCourseByCourseIdAndStudentId(@Param("studentId") String studentId,
                                             @Param("courseId") String courseId);
 
-    @Query("SELECT DISTINCT c FROM Course c " +
+    @Query("SELECT c FROM Course c " +
             "LEFT JOIN c.studentCourses sc " +
             "WHERE (:lecturerId IS NULL OR c.lecturer.id = :lecturerId) " +
             "AND (sc.student.id = :studentId)" +
