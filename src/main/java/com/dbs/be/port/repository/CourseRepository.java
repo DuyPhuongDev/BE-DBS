@@ -45,6 +45,12 @@ public interface CourseRepository extends JpaRepository<Course, String> {
             @Param("sortBy") String sortBy
     );
 
-    
+    @Procedure(procedureName = "GetFilteredCourses")
+    List<Course> filterCourse(@Param("lecturerId") String lecturerId,
+                              @Param("requiredLevel") String requiredLevel,
+                              @Param("topic") String topic,
+                              @Param("priceFrom") Double priceFrom,
+                              @Param("priceTo") Double priceTo,
+                              @Param("sortBy") String sortBy);
 
 }

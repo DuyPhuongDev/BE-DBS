@@ -120,4 +120,12 @@ public class CourseFacadeImpl implements CourseFacade {
                 .map(CourseResponse::toResponse)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<CourseResponse> filterCourse(String lecturerId, String requiredLevel, String topic, Double priceS, Double priceE, String sortBy) {
+        List<Course> courses = courseRepository.filterCourse(lecturerId,requiredLevel,topic,priceS,priceE,sortBy);
+        return courses.stream().map(CourseDTO::fromDomain).map(CourseResponse::toResponse).collect(Collectors.toList());
+    }
+
+
 }

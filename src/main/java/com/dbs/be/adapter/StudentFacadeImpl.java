@@ -56,19 +56,6 @@ public class StudentFacadeImpl implements StudentFacade {
 
     @Override
     public void updateStudent(String studentId, UpsertStudentRequest request) {
-//        Optional<Student> optionalStudent = studentRepository.findById(studentId);
-//        if (optionalStudent.isPresent()){
-//            Student student = optionalStudent.get();
-//            if (request.getUserName()!=null) student.setUsername(request.getUserName());
-//            if(request.getPassword()!=null) student.setPassword(request.getPassword());
-//            if(request.getEmail()!=null) student.setEmail(request.getEmail());
-//            if(request.getPhoneNumber()!=null) student.setPhoneNumber(request.getPhoneNumber());
-//            if(request.getFullName()!=null) student.setFullName(request.getFullName());
-//            if(request.getGender()!=null) student.setGender(request.getGender());
-//            if(request.getBdate()!=null) student.setBdate(request.getBdate());
-//            if(request.getAddr()!=null) student.setAddr(request.getAddr());
-//            studentRepository.save(student);
-//        }else throw new RuntimeException("student not found!\n");
         userRepository.updateUser(
                 request.getStudentId(),
                 request.getUserName(),

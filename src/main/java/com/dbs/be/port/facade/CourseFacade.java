@@ -12,5 +12,5 @@ public interface CourseFacade {
 
     List<CourseResponse> getAll();
 
-
+    List<CourseResponse> filterCourse(String lecturerId, String requiredLevel, String topic , Double priceS, Double priceE, String sortBy);
 }

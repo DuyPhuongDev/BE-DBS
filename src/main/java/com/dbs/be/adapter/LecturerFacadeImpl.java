@@ -52,21 +52,6 @@ public class LecturerFacadeImpl implements LecturerFacade {
 
     @Override
     public void updateLecturer(String lecturerId, UpsertLecturerRequest request) {
-//        Optional<Lecturer> optionalLecturer = lecturerRepository.findById(lecturerId);
-//        if (optionalLecturer.isPresent()){
-//            Lecturer lecturer = optionalLecturer.get();
-//            if (request.getUserName()!=null) lecturer.setUsername(request.getUserName());
-//            if(request.getPassword()!=null) lecturer.setPassword(request.getPassword());
-//            if(request.getEmail()!=null) lecturer.setEmail(request.getEmail());
-//            if(request.getPhoneNumber()!=null) lecturer.setPhoneNumber(request.getPhoneNumber());
-//            if(request.getFullName()!=null) lecturer.setFullName(request.getFullName());
-//            if(request.getGender()!=null) lecturer.setGender(request.getGender());
-//            if(request.getBdate()!=null) lecturer.setBdate(request.getBdate());
-//            if(request.getAddr()!=null) lecturer.setAddr(request.getAddr());
-//            if(request.getDegree()!=null) lecturer.setDegree(request.getDegree());
-//            if(request.getMajor()!=null) lecturer.setMajor(request.getMajor());
-//            lecturerRepository.save(lecturer);
-//        }else throw new RuntimeException("lecturer not found!\n");
         userRepository.updateUser(
                 request.getLecturerId(),
                 request.getUserName(),

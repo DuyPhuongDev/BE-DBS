@@ -28,7 +28,14 @@ public class CourseController {
     @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
     @Operation(tags = "Course APIs")
-    public BaseResponse<List<CourseResponse>> getAllCourse(){
+    public BaseResponse<List<CourseResponse>> getAllCourse(@RequestParam(defaultValue = "0") Boolean searchFlag,
+                                                           @RequestParam(required = false) String lecturerId,
+                                                           @RequestParam(required = false) String requiredLevel,
+                                                           @RequestParam(required = false) String topic,
+                                                           @RequestParam(required = false) Double priceS,
+                                                           @RequestParam(required = false) Double priceE,
+                                                           @RequestParam(defaultValue = "ASC") String sortBy){
+        if(searchFlag==Boolean.TRUE) return BaseResponse.of(courseFacade.filterCourse(lecturerId,requiredLevel,topic,priceS,priceE,sortBy));
         return BaseResponse.of(courseFacade.getAll());
     }
 
