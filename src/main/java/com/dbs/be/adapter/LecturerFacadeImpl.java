@@ -7,6 +7,7 @@ import com.dbs.be.dto.LecturerDTO;
 import com.dbs.be.port.facade.LecturerFacade;
 import com.dbs.be.port.repository.CourseInfoRepository;
 import com.dbs.be.port.repository.LecturerRepository;
+import com.dbs.be.port.repository.UserRepository;
 import com.dbs.be.rest.request.UpsertLecturerRequest;
 import com.dbs.be.rest.response.CourseInfoResponse;
 import com.dbs.be.rest.response.LecturerResponse;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 public class LecturerFacadeImpl implements LecturerFacade {
     private final LecturerRepository lecturerRepository;
     private final CourseInfoRepository courseInfoRepository;
+    private final UserRepository userRepository;
     @Override
     public List<LecturerResponse> getAllLecturerSortByName() {
         List<Lecturer> lecturers = lecturerRepository.findAllByOrderByFullNameAsc();
@@ -32,47 +34,58 @@ public class LecturerFacadeImpl implements LecturerFacade {
 
     @Override
     public void saveLecturer(UpsertLecturerRequest request) {
-        Lecturer lecturer = new  Lecturer(
+        userRepository.insertUser(
                 request.getLecturerId(),
                 request.getUserName(),
-                request.getPassword(),
                 request.getEmail(),
                 request.getPhoneNumber(),
+                request.getPassword(),
+                "lecturer",
                 request.getFullName(),
                 request.getGender(),
                 request.getBdate(),
                 request.getAddr(),
                 request.getDegree(),
                 request.getMajor()
-                );
-        lecturerRepository.save(lecturer);
+        );
     }
 
     @Override
     public void updateLecturer(String lecturerId, UpsertLecturerRequest request) {
-        Optional<Lecturer> optionalLecturer = lecturerRepository.findById(lecturerId);
-        if (optionalLecturer.isPresent()){
-            Lecturer lecturer = optionalLecturer.get();
-            if (request.getUserName()!=null) lecturer.setUsername(request.getUserName());
-            if(request.getPassword()!=null) lecturer.setPassword(request.getPassword());
-            if(request.getEmail()!=null) lecturer.setEmail(request.getEmail());
-            if(request.getPhoneNumber()!=null) lecturer.setPhoneNumber(request.getPhoneNumber());
-            if(request.getFullName()!=null) lecturer.setFullName(request.getFullName());
-            if(request.getGender()!=null) lecturer.setGender(request.getGender());
-            if(request.getBdate()!=null) lecturer.setBdate(request.getBdate());
-            if(request.getAddr()!=null) lecturer.setAddr(request.getAddr());
-            if(request.getDegree()!=null) lecturer.setDegree(request.getDegree());
-            if(request.getMajor()!=null) lecturer.setMajor(request.getMajor());
-            lecturerRepository.save(lecturer);
-        }else throw new RuntimeException("lecturer not found!\n");
+//        Optional<Lecturer> optionalLecturer = lecturerRepository.findById(lecturerId);
+//        if (optionalLecturer.isPresent()){
+//            Lecturer lecturer = optionalLecturer.get();
+//            if (request.getUserName()!=null) lecturer.setUsername(request.getUserName());
+//            if(request.getPassword()!=null) lecturer.setPassword(request.getPassword());
+//            if(request.getEmail()!=null) lecturer.setEmail(request.getEmail());
+//            if(request.getPhoneNumber()!=null) lecturer.setPhoneNumber(request.getPhoneNumber());
+//            if(request.getFullName()!=null) lecturer.setFullName(request.getFullName());
+//            if(request.getGender()!=null) lecturer.setGender(request.getGender());
+//            if(request.getBdate()!=null) lecturer.setBdate(request.getBdate());
+//            if(request.getAddr()!=null) lecturer.setAddr(request.getAddr());
+//            if(request.getDegree()!=null) lecturer.setDegree(request.getDegree());
+//            if(request.getMajor()!=null) lecturer.setMajor(request.getMajor());
+//            lecturerRepository.save(lecturer);
+//        }else throw new RuntimeException("lecturer not found!\n");
+        userRepository.updateUser(
+                request.getLecturerId(),
+                request.getUserName(),
+                request.getEmail(),
+                request.getPhoneNumber(),
+                request.getPassword(),
+                request.getFullName(),
+                request.getGender(),
+                request.getBdate(),
+                request.getAddr(),
+                request.getDegree(),
+                request.getMajor(),
+                "lecturer"
+        );
     }
 
     @Override
     public void deleteLecturer(String lecturerId) {
-        Optional<Lecturer> optionalLecturer = lecturerRepository.findById(lecturerId);
-        if (optionalLecturer.isPresent()){
-            lecturerRepository.deleteById(lecturerId);
-        }else throw new RuntimeException("lecturer cannot found!\n");
+        userRepository.deleteUser(lecturerId);
     }
 
     @Override

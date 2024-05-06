@@ -8,6 +8,7 @@ import com.dbs.be.port.facade.StudentFacade;
 import com.dbs.be.port.repository.CourseRepository;
 import com.dbs.be.port.repository.StudentCourseRepository;
 import com.dbs.be.port.repository.StudentRepository;
+import com.dbs.be.port.repository.UserRepository;
 import com.dbs.be.rest.request.UpsertStudentRequest;
 import com.dbs.be.rest.response.CourseResponse;
 import com.dbs.be.rest.response.StudentResponse;
@@ -26,6 +27,7 @@ public class StudentFacadeImpl implements StudentFacade {
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
     private final StudentCourseRepository studentCourseRepository;
+    private final UserRepository userRepository;
     @Override
     public List<StudentResponse> getAllStudents() {
 
@@ -36,43 +38,56 @@ public class StudentFacadeImpl implements StudentFacade {
 
     @Override
     public void saveStudent(UpsertStudentRequest request) {
-        Student student = new Student(
+        userRepository.insertUser(
                 request.getStudentId(),
                 request.getUserName(),
-                request.getPassword(),
                 request.getEmail(),
                 request.getPhoneNumber(),
+                request.getPassword(),
+                "student",
                 request.getFullName(),
                 request.getGender(),
                 request.getBdate(),
-                request.getAddr()
+                request.getAddr(),
+                null,
+                null
         );
-        studentRepository.save(student);
     }
 
     @Override
     public void updateStudent(String studentId, UpsertStudentRequest request) {
-        Optional<Student> optionalStudent = studentRepository.findById(studentId);
-        if (optionalStudent.isPresent()){
-            Student student = optionalStudent.get();
-            if (request.getUserName()!=null) student.setUsername(request.getUserName());
-            if(request.getPassword()!=null) student.setPassword(request.getPassword());
-            if(request.getEmail()!=null) student.setEmail(request.getEmail());
-            if(request.getPhoneNumber()!=null) student.setPhoneNumber(request.getPhoneNumber());
-            if(request.getFullName()!=null) student.setFullName(request.getFullName());
-            if(request.getGender()!=null) student.setGender(request.getGender());
-            if(request.getBdate()!=null) student.setBdate(request.getBdate());
-            if(request.getAddr()!=null) student.setAddr(request.getAddr());
-            studentRepository.save(student);
-        }else throw new RuntimeException("student not found!\n");
+//        Optional<Student> optionalStudent = studentRepository.findById(studentId);
+//        if (optionalStudent.isPresent()){
+//            Student student = optionalStudent.get();
+//            if (request.getUserName()!=null) student.setUsername(request.getUserName());
+//            if(request.getPassword()!=null) student.setPassword(request.getPassword());
+//            if(request.getEmail()!=null) student.setEmail(request.getEmail());
+//            if(request.getPhoneNumber()!=null) student.setPhoneNumber(request.getPhoneNumber());
+//            if(request.getFullName()!=null) student.setFullName(request.getFullName());
+//            if(request.getGender()!=null) student.setGender(request.getGender());
+//            if(request.getBdate()!=null) student.setBdate(request.getBdate());
+//            if(request.getAddr()!=null) student.setAddr(request.getAddr());
+//            studentRepository.save(student);
+//        }else throw new RuntimeException("student not found!\n");
+        userRepository.updateUser(
+                request.getStudentId(),
+                request.getUserName(),
+                request.getEmail(),
+                request.getPhoneNumber(),
+                request.getPassword(),
+                request.getFullName(),
+                request.getGender(),
+                request.getBdate(),
+                request.getAddr(),
+                null,
+                null,
+                "student"
+        );
     }
 
     @Override
     public void deleteStudent(String studentId) {
-        Optional<Student> optionalStudent = studentRepository.findById(studentId);
-        if(optionalStudent.isPresent()){
-            studentRepository.deleteById(studentId);
-        }else throw new RuntimeException("Student cannot found!\n");
+        userRepository.deleteUser(studentId);
     }
 
     @Override
