@@ -23,7 +23,7 @@ public class CourseResponse {
     private Double price;
     private String lecturerId;
     private List<String> languages;
-    //private List<StudentCourseDTO> studentCourses;
+    private List<StudentCourseDTO> studentCourses;
 
     public static CourseResponse toResponse(CourseDTO courseDTO){
         return CourseResponse.builder()
@@ -35,7 +35,7 @@ public class CourseResponse {
                 .price(courseDTO.getPrice())
                 .lecturerId(courseDTO.getLecturerId())
                 .languages(courseDTO.getLanguages())
-                //.studentCourses(courseDTO.getStudentCourses())
+                .studentCourses(courseDTO.getStudentCourses())
                 .build();
     }
 }
